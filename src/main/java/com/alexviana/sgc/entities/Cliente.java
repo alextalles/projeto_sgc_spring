@@ -4,13 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.hibernate.type.EnumType;
-import org.springframework.data.annotation.Id;
 
 import com.alexviana.sgc.enums.StageEnum;
 import com.alexviana.sgc.enums.TipoEnum;
@@ -23,15 +22,18 @@ public class Cliente implements Serializable {
 	
 	private Long id;
 	private String nome;
-	private String empresa;
+	private String cpf;
+	private String cnpj;
 	private String codigoPostal;
 	private String email;
 	private TipoEnum tipo;
 	private StageEnum stage;
+	private String telefone1;
+	private String telefone2;
 	
-	public Cliente( ) {}
+	public Cliente( ) { }
 	
-	@Id
+	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
@@ -50,15 +52,24 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 	}
 	
-	@Column(name = "empresa", nullable = false)
-	public String getEmpresa() {
-		return empresa;
+	@Column(name = "cpf", nullable = true)
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 	
-	public void setEmpresa(String empresa) {
-		this.empresa = empresa;
+	@Column(name = "cnpj", nullable = true)
+	public String getCnpj() {
+		return cnpj;
 	}
-	
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
 	@Column(name = "codigo_postal", nullable = false)
 	public String getCodigoPostal() {
 		return codigoPostal;
@@ -77,7 +88,7 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 
-	//@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo", nullable = true)
 	public TipoEnum getTipo() {
 		return tipo;
@@ -87,7 +98,7 @@ public class Cliente implements Serializable {
 		this.tipo = tipo;
 	}
 
-	//@Enumerated(EnumType.ENUM)
+	@Enumerated(EnumType.STRING)
 	@Column(name = "stage", nullable = true)
 	public StageEnum getStage() {
 		return stage;
@@ -97,4 +108,21 @@ public class Cliente implements Serializable {
 		this.stage = stage;
 	}
 
+	@Column(name = "telefone1", nullable = false)
+	public String getTelefone1() {
+		return telefone1;
+	}
+
+	public void setTelefone1(String telefone1) {
+		this.telefone1 = telefone1;
+	}
+
+	@Column(name = "telefone2", nullable = false)
+	public String getTelefone2() {
+		return telefone2;
+	}
+
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
+	}
 }

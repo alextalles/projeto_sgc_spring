@@ -17,6 +17,7 @@ public class ClienteServiceImpl implements ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 
+
 	@Override
 	public Cliente salvar(Cliente cliente) {
 		logger.info("Salvando dados do cliente: {}", cliente);
@@ -25,31 +26,31 @@ public class ClienteServiceImpl implements ClienteService {
 	
 	@Override
 	public Cliente editar(Cliente cliente) {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("Editando dados do cliente: {}", cliente);
+		return this.clienteRepository.save(cliente);
 	}
 
 	@Override
-	public Cliente excluir(Cliente cliente) {
-		// TODO Auto-generated method stub
-		return null;
+	public void excluir(Cliente cliente) {
+		logger.info("Excluindo dados do cliente: {}", cliente);
+		this.clienteRepository.delete(cliente);
 	}
 
 	@Override
-	public String buscarPorCpf(String cpf) {
+	public Cliente buscarPorCpf(String cpf) {
 		logger.info("Buscando pelo cpf do cliente: {}", cpf);
-		return this.clienteRepository.buscarPorCpf(cpf);
+		return this.clienteRepository.findByCpf(cpf);
 	}
-
+	
 	@Override
-	public String buscarPorCnpf(String cnpj) {
+	public Cliente buscarPorCnpf(String cnpj) {
 		logger.info("Buscando pelo cnpf do cliente: {}", cnpj);
-		return this.clienteRepository.buscarPorCnpj(cnpj);
+		return this.clienteRepository.findByCnpj(cnpj);
 	}
-
+	
 	@Override
-	public String buscarPorEmail(String email) {
+	public Cliente buscarPorEmail(String email) {
 		logger.info("Buscando pelo e-mail do cliente: {}", email);
-		return this.clienteRepository.buscarPorEmail(email);
+		return this.clienteRepository.findByEmail(email);
 	}
 }

@@ -23,27 +23,26 @@ public interface ClienteService {
 	 * @param cliente
 	 * @return
 	 */
-	public Cliente excluir(Cliente cliente);
+	public void excluir(Cliente cliente);
 	
 	/** *
 	 * Busca o cpf do cliente.
 	 * @param cpf
 	 * @return
 	 */
-	public String buscarPorCpf(String cpf);
+	public Cliente buscarPorCpf(String cpf);
 	
 	/** *
 	 * Busca o cnpj do cliente.
 	 * @param cnpj
 	 * @return
 	 */
-	public String buscarPorCnpf(String cnpj);
+	public Cliente buscarPorCnpf(String cnpj);
 	
 	/** *
 	 * Busca o e-mail do cliente.
 	 * @param cnpj
 	 * @return
 	 */
-	public String buscarPorEmail(String email);
-
+	public Cliente buscarPorEmail(String email);
 }

@@ -6,10 +6,10 @@ import com.alexviana.sgc.entities.Cliente;
 
 public interface ClienteRepository extends CrudRepository<Cliente, Long> {
 
-	public String buscarPorCpf(String cpf);
+	// Recursos do Java 8
+	public Cliente findByCpf(String cpf);
 	
-	public String buscarPorCnpj(String cnpj);
+	public Cliente findByCnpj(String cnpj);
 	
-	public String buscarPorEmail(String email);
-	
+	public Cliente findByEmail(String email);
 }
