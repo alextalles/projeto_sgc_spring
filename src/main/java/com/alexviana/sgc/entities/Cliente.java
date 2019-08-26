@@ -10,9 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
-import com.alexviana.sgc.enums.StageEnum;
-import com.alexviana.sgc.enums.TipoEnum;
+import org.hibernate.validator.constraints.Length;
+
+import com.alexviana.sgc.enums.StageCliente;
+import com.alexviana.sgc.enums.TipoCliente;
 
 @Entity
 @Table(name = "cliente")
@@ -26,8 +29,8 @@ public class Cliente implements Serializable {
 	private String cnpj;
 	private String codigoPostal;
 	private String email;
-	private TipoEnum tipo;
-	private StageEnum stage;
+	private TipoCliente tipo;
+	private StageCliente stage;
 	private String telefone1;
 	private String telefone2;
 	
@@ -43,6 +46,8 @@ public class Cliente implements Serializable {
 		this.id = id;
 	}
 	
+	@NotEmpty(message = "Nome é obrigatório!")
+	@Length(min = 3, max = 100, message = "O campo deve ter no mínimo 3 e no máximo 100 caracteres.")
 	@Column(name = "nome", nullable = true)
 	public String getNome() {
 		return nome;
@@ -52,6 +57,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 	}
 	
+	@NotEmpty(message = "CPF é obrigatório!")
 	@Column(name = "cpf", nullable = true)
 	public String getCpf() {
 		return cpf;
@@ -61,6 +67,7 @@ public class Cliente implements Serializable {
 		this.cpf = cpf;
 	}
 	
+	@NotEmpty(message = "O CNPJ é obrigatório!")
 	@Column(name = "cnpj", nullable = true)
 	public String getCnpj() {
 		return cnpj;
@@ -79,6 +86,8 @@ public class Cliente implements Serializable {
 		this.codigoPostal = codigoPostal;
 	}
 	
+	@NotEmpty(message = "E-mail é obrigatório!")
+	@Length(min = 8, max = 50, message = "O campo deve ter no mínimo 8 e no máximo 50 caracteres.")
 	@Column(name = "email", nullable = true)
 	public String getEmail() {
 		return email;
@@ -88,26 +97,28 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 
+	@NotEmpty(message = "Tipo é obrigatório!")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo", nullable = true)
-	public TipoEnum getTipo() {
+	public TipoCliente getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TipoEnum tipo) {
+	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo;
 	}
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "stage", nullable = true)
-	public StageEnum getStage() {
+	public StageCliente getStage() {
 		return stage;
 	}
 
-	public void setStage(StageEnum stage) {
+	public void setStage(StageCliente stage) {
 		this.stage = stage;
 	}
 
+	@NotEmpty(message = "Telefone é obrigatório!")
 	@Column(name = "telefone1", nullable = false)
 	public String getTelefone1() {
 		return telefone1;

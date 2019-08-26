@@ -56,10 +56,16 @@
 			<scope>runtime</scope>
 		</dependency>
 		
-		<!-- Validação -->
+		<!-- Validação do Hibernate -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		
+		<!-- Front-end -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		
 	</dependencies>

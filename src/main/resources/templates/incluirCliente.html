@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Cadastrar Cliente</title>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"></link>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong>Cadastrar Cliente</strong>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal" th:object="${cliente}" th:action="@{/salvar}" method="POST" style="margin: 10px">
+				<div class="form-group row">
+					<label>Tipo Cliente</label> 
+					<select name="tipoCliente">
+						<option
+							th:each="tipoOpt : ${T(com.alexviana.sgc.enums.TipoCliente).values()}"
+							th:value="${tipoOpt}" th:text="${tipoOpt.displayValue}">
+						</option>
+					</select>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-4">
+						<label>Nome</label> <input type="text"
+							class="form-control input-sm" th:field="*{nome}"
+							autofocus="autofocus" placeholder="Informe o nome"
+							maxlength="100" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-4">
+						<label>E-mail</label> <input type="text"
+							class="form-control input-sm" th:field="*{email}"
+							placeholder="Informe o e-mail" maxlength="50" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-4"
+						th:classappend="${#fields.hasErrors('codigoPostal')}? 'has-error'">
+						<label>Código Postal</label> <input type="text"
+							class="form-control input-sm" th:field="*{codigoPostal}"
+							placeholder="Informe o código postal" maxlength="8" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-4">
+						<label>Telefone</label> <input type="text"
+							class="form-control input-sm" th:field="*{telefone}"
+							placeholder="Informe o telefone" maxlength="11" />
+					</div>
+				</div>
+				</fieldset>
+		</div>
+		<div class="form-group row">
+			<button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+			<a th:href="@{/}" class="btn btn-sm btn-default">Cancelar</a>
+		</div>
+		</form>
+	</div>
+</body>
+</html>

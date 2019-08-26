@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.alexviana.sgc.entities.Cliente;
-import com.alexviana.sgc.enums.StageEnum;
-import com.alexviana.sgc.enums.TipoEnum;
+import com.alexviana.sgc.enums.StageCliente;
+import com.alexviana.sgc.enums.TipoCliente;
 import com.alexviana.sgc.repositories.ClienteRepository;
 
 @SpringBootApplication
@@ -22,7 +22,7 @@ public class SgcApplication {
 	/** *
 	 * Indica para o container do Spring que deve gerenciar esse método.
 	 * O repositório é passado como parâmetro para o método, para que possa ser acessado de dentro do método. 
-	 * O método retorna o ComandLinerRunner (que é a interface) que indica que o mesmo deverá ser executado, quando a aplicação foi executada dentro do contexto do Spring.
+	 * O método retorna o ComandLinerRunner (que é a interface), que indica que o mesmo deverá ser executado, quando a aplicação foi executada dentro do contexto do Spring.
 	 * @param clienteRepository
 	 * @return
 	 */
@@ -38,8 +38,8 @@ public class SgcApplication {
                         cliente.setCpf("309.994.510-22");
                         cliente.setCnpj("38.140.080/0001-53");
                         cliente.setCodigoPostal("31.910-520");
-                        cliente.setTipo(TipoEnum.FISICA);
-                        cliente.setStage(StageEnum.ACTIVE);
+                        cliente.setTipo(TipoCliente.FISICA);
+                        cliente.setStage(StageCliente.ATIVO);
                         cliente.setTelefone1("(031) 1111-1111");
                         cliente.setTelefone2("(031) 2222-2222");
                         
