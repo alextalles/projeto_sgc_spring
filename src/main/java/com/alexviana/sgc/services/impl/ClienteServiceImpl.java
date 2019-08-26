@@ -12,12 +12,13 @@ import com.alexviana.sgc.services.ClienteService;
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
+	// Servirá para inputs de logs no console.
 	private static final Logger logger = LoggerFactory.getLogger(ClienteServiceImpl.class);
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
 
-
+	
 	@Override
 	public Cliente salvar(Cliente cliente) {
 		logger.info("Salvando dados do cliente: {}", cliente);
@@ -39,18 +40,18 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public Cliente buscarPorCpf(String cpf) {
 		logger.info("Buscando pelo cpf do cliente: {}", cpf);
-		return this.clienteRepository.findByCpf(cpf);
+		return this.clienteRepository.findClienteByCpf(cpf);
 	}
 	
 	@Override
 	public Cliente buscarPorCnpf(String cnpj) {
 		logger.info("Buscando pelo cnpf do cliente: {}", cnpj);
-		return this.clienteRepository.findByCnpj(cnpj);
+		return this.clienteRepository.findClienteByCnpj(cnpj);
 	}
 	
 	@Override
 	public Cliente buscarPorEmail(String email) {
 		logger.info("Buscando pelo e-mail do cliente: {}", email);
-		return this.clienteRepository.findByEmail(email);
+		return this.clienteRepository.findClienteByEmail(email);
 	}
 }

@@ -1,54 +1,106 @@
 package com.alexviana.sgc.controllers;
 
-import javax.validation.Valid;
-import javax.xml.ws.Response;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alexviana.sgc.dtos.CadastroClienteDto;
 import com.alexviana.sgc.entities.Cliente;
-import com.alexviana.sgc.services.ClienteService;
+import com.alexviana.sgc.repositories.ClienteRepository;
 
 @RestController
-@RequestMapping("/cadastrar-clientes")
+@RequestMapping("/clientes")
 public class CadastroClienteController {
 	
-	//Servirá para inputs dos logs no console.
-	//private static final Logger logger = LoggerFactory.getLogger(CadastroClienteController.class);
+	//private ClienteService clienteService;
 	
-	@Autowired
-	private ClienteService clienteService;
+	private ClienteRepository clienteRepository;
 	
-	@PostMapping 
-	private ResponseEntity<Response<CadastroClienteDto>> cadastrar(@Valid @RequestBody CadastroClienteDto cadastroClienteDto) throws Exception {
-	
-		Cliente cliente = converterDtoParaCliente(cadastroClienteDto);
-		this.clienteService.salvar(cliente);
-		return null;
+	/** *
+	 *  Uma prática de injeção mais moderna do que anotar como "Autowired". 
+	 * @param clienteRepository
+	 */
+	CadastroClienteController(ClienteRepository clienteRepository) {
+		this.clienteRepository = clienteRepository;
 	}
 	
-	// Converte os dados do Dto para Cliente.
-	private Cliente converterDtoParaCliente(CadastroClienteDto cadastroClienteDto) throws Exception {
-		
-		Cliente cliente = new Cliente();
-		cliente.setNome(cadastroClienteDto.getNome());
-		cliente.setCpf(cadastroClienteDto.getCpf());
-		cliente.setCnpj(cadastroClienteDto.getCnpj());
-		cliente.setEmail(cadastroClienteDto.getEmail());
-		cliente.setCodigoPostal(cadastroClienteDto.getCodigoPostal());
-		cliente.setTipo(cadastroClienteDto.getTipo());
-		cliente.setStage(cadastroClienteDto.getStage());
-		
-		return cliente;
-		
+	/** *
+	 *  Listar todos os clientes cadastrados.
+	 * @return
+	 */
+	@GetMapping
+	public List<Cliente> findAll(){
+	   return (List<Cliente>) clienteRepository.findAll();
 	}
 	
-	private void validarDadosExistentes(CadastroClienteDto cadastroClienteDto) {
-		Cliente cpf = this.clienteService.buscarPorCpf(cadastroClienteDto.getCpf());
-	}	
+	/*
+	 * @GetMapping public Page<Cliente> pesquisar(
+	 * 
+	 * @RequestParam(defaultValue = "0") int pagina,
+	 * 
+	 * @RequestParam(defaultValue = "10") int porPagina,
+	 * 
+	 * @RequestParam(defaultValue = "nome") String ordenacao,
+	 * 
+	 * @RequestParam(defaultValue = "ASC") Sort.Direction direcao ) { return
+	 * clienteRepository.findAll(PageRequest.of(pagina, porPagina, new Sort(direcao,
+	 * ordenacao))); }
+	 */
+	
+	/** *
+	 * Cria o cliente na base de dados, retorna o cliente com "id" populado e é retornado no corpo da resposta em formato "Json".
+	 * @param cliente
+	 * @return
+	 */
+	@PostMapping
+	public Cliente incluir(@Valid @RequestBody Cliente cliente){
+	   return this.clienteRepository.save(cliente);
+	}
+	
+	@PutMapping(value="/{id}")
+	public ResponseEntity<?> atualizar(@PathVariable("id") long id,  @Valid @RequestBody Cliente cliente) {
+	   
+		return clienteRepository.findById(id)
+	           .map(record -> {
+	               record.setNome(cliente.getNome());
+	               record.setCpf(cliente.getCpf());
+	               record.setCnpj(cliente.getCnpj());
+	               record.setEmail(cliente.getEmail());
+	               record.setCodigoPostal(cliente.getCodigoPostal());
+	               record.setTipo(cliente.getTipo());
+	               record.setStage(cliente.getStage());
+	               record.setTelefone1(cliente.getTelefone1());
+	               record.setTelefone2(cliente.getTelefone2());
+	               
+	               Cliente clienteAtualizado = clienteRepository.save(record);
+	               return ResponseEntity.ok().body(clienteAtualizado);
+	               
+	           }).orElse(ResponseEntity.notFound().build());
+	}
+	
+	@DeleteMapping(path ={"/{id}"})
+	public ResponseEntity<?> excluir(@Valid @PathVariable long id) {
+		
+	   return clienteRepository.findById(id)
+	           .map(record -> {
+	        	   clienteRepository.deleteById(id);
+	               return ResponseEntity.ok().build();
+	               
+	           }).orElse(ResponseEntity.notFound().build());
+	}
+	
+	/*
+	 * private void validarDadosExistentes(CadastroClienteDto cadastroClienteDto) {
+	 * Cliente cpf = this.clienteService.buscarPorCpf(cadastroClienteDto.getCpf());
+	 * }
+	 */
 }
